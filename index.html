@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mullangi Lahari — Civil Engineering Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --navy: #12314A;
+    --navy-deep: #0B2438;
+    --paper: #F3EFE6;
+    --paper-dim: #E7E1D2;
+    --line: #A9C6D6;
+    --concrete: #6E6A61;
+    --rust: #C1531B;
+    --ink: #1B2A33;
+    --white: #FBF9F4;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    line-height:1.55;
+    font-size:17px;
+  }
+  h1,h2,h3,.label{
+    font-family:'Barlow Condensed', sans-serif;
+    letter-spacing:0.01em;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  a{ color:inherit; }
+
+  /* ---------- Blueprint grid background ---------- */
+  .blueprint{
+    background-color:var(--navy);
+    background-image:
+      linear-gradient(var(--navy-deep) 1px, transparent 1px),
+      linear-gradient(90deg, var(--navy-deep) 1px, transparent 1px);
+    background-size:34px 34px;
+    position:relative;
+    color:var(--white);
+  }
+  .blueprint::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(207,232,240,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(207,232,240,0.08) 1px, transparent 1px);
+    background-size:170px 170px;
+    pointer-events:none;
+  }
+
+  /* ---------- corner ticks, used on framed panels ---------- */
+  .framed{
+    position:relative;
+    border:1px solid var(--navy);
+  }
+  .framed::before, .framed::after{
+    content:"";
+    position:absolute;
+    width:10px; height:10px;
+    border-top:2px solid var(--rust);
+    border-left:2px solid var(--rust);
+  }
+  .framed::before{ top:-1px; left:-1px; }
+  .framed::after{ bottom:-1px; right:-1px; border-top:none; border-left:none; border-bottom:2px solid var(--rust); border-right:2px solid var(--rust); }
+
+  /* ---------- layout shell ---------- */
+  .wrap{ max-width:1040px; margin:0 auto; padding:0 28px; }
+  section{ padding:88px 0; }
+  @media (max-width:640px){ section{ padding:56px 0; } .wrap{ padding:0 20px; } }
+
+  /* ---------- top nav ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(18,49,74,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(207,232,240,0.25);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding-top:14px; padding-bottom:14px; }
+  nav .mark{ color:var(--white); font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:19px; letter-spacing:0.02em; }
+  nav .mark span{ color:var(--rust); }
+  nav ul{ list-style:none; display:flex; gap:26px; margin:0; padding:0; }
+  nav a{ color:#CFE8F0; text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:16px; }
+  nav a:hover{ color:var(--white); }
+  nav ul{ display:none; }
+  @media (min-width:780px){ nav ul{ display:flex; } }
+
+  /* ---------- hero / title block ---------- */
+  .hero{ padding:110px 0 90px; }
+  .hero .kicker{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--rust);
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .hero .kicker .rule{ height:1px; width:44px; background:var(--rust); display:inline-block; }
+  .hero h1{
+    font-size:clamp(46px, 8vw, 84px);
+    line-height:0.98;
+    margin:0 0 22px;
+    font-weight:700;
+    color:var(--white);
+  }
+  .hero p.role{
+    font-family:'Source Serif 4', serif;
+    font-size:20px;
+    max-width:560px;
+    color:#DCE7EC;
+    margin:0 0 40px;
+  }
+  .titleblock{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    border:1px solid rgba(207,232,240,0.4);
+    max-width:720px;
+  }
+  .titleblock div{
+    padding:14px 16px;
+    border-right:1px solid rgba(207,232,240,0.4);
+    border-top:1px solid rgba(207,232,240,0.4);
+  }
+  .titleblock div:nth-child(4n){ border-right:none; }
+  .titleblock div:nth-child(-n+4){ border-top:none; }
+  .titleblock .k{ font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--rust); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; }
+  .titleblock .v{ font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--white); }
+  @media (max-width:640px){ .titleblock{ grid-template-columns:1fr 1fr; } .titleblock div:nth-child(4n){ border-right:1px solid rgba(207,232,240,0.4);} .titleblock div:nth-child(2n){ border-right:none;} .titleblock div:nth-child(-n+2){ border-top:none;} .titleblock div:nth-child(n+3){border-top:1px solid rgba(207,232,240,0.4);} }
+
+  /* ---------- section headers ---------- */
+  .sheet-header{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    margin-bottom:44px;
+    border-bottom:1px solid var(--navy);
+    padding-bottom:14px;
+  }
+  .sheet-header .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--rust);
+  }
+  .sheet-header h2{
+    font-size:34px;
+    margin:0;
+    font-weight:600;
+    color:var(--navy);
+  }
+
+  /* ---------- summary ---------- */
+  .summary p{ max-width:660px; font-size:18px; color:#33454F; }
+  .summary .stack{
+    display:flex; flex-wrap:wrap; gap:10px; margin-top:28px;
+  }
+  .summary .chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    padding:6px 12px;
+    border:1px solid var(--navy);
+    color:var(--navy);
+  }
+
+  /* ---------- projects ---------- */
+  .project{
+    background:var(--white);
+    padding:30px 30px 28px;
+    margin-bottom:26px;
+  }
+  .project-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:14px; }
+  .project h3{ font-size:26px; margin:0; color:var(--navy); font-weight:600; max-width:520px; }
+  .project .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--rust);
+    border:1px solid var(--rust);
+    padding:4px 10px;
+    white-space:nowrap;
+  }
+  .project ul{ margin:0; padding-left:20px; color:#3B4C56; }
+  .project li{ margin-bottom:6px; }
+  .project .meta{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--concrete); margin-top:14px; }
+
+  /* ---------- experience / timeline (real sequence -> numbering justified) ---------- */
+  .timeline{ position:relative; padding-left:34px; border-left:1px solid var(--navy); }
+  .tl-item{ position:relative; padding-bottom:36px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:attr(data-n);
+    position:absolute; left:-46px; top:-2px;
+    width:24px; height:24px;
+    background:var(--navy); color:var(--white);
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tl-item h3{ margin:0 0 4px; font-size:22px; color:var(--navy); font-weight:600; }
+  .tl-item .role-meta{ font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--concrete); margin-bottom:12px; }
+  .tl-item ul{ margin:0; padding-left:20px; color:#3B4C56; }
+  .tl-item li{ margin-bottom:6px; }
+
+  /* ---------- achievements ---------- */
+  .ach-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:700px){ .ach-grid{ grid-template-columns:1fr; } }
+  .ach{ border:1px solid var(--navy); padding:26px; background:var(--white); }
+  .ach h3{ margin:0 0 10px; font-size:21px; color:var(--navy); font-weight:600; }
+  .ach p{ margin:0; color:#3B4C56; font-size:15.5px; }
+
+  /* ---------- education ---------- */
+  .edu-row{
+    display:grid;
+    grid-template-columns:110px 1fr 90px;
+    gap:16px;
+    padding:16px 0;
+    border-bottom:1px solid var(--paper-dim);
+    align-items:baseline;
+  }
+  .edu-row:first-child{ border-top:1px solid var(--paper-dim); }
+  .edu-row .yr{ font-family:'JetBrains Mono',monospace; color:var(--rust); font-size:15px; }
+  .edu-row .school{ color:#3B4C56; font-size:15px; }
+  .edu-row .cgpa{ font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--navy); text-align:right; }
+  .edu-row .deg{ color:var(--navy); font-weight:600; font-family:'Barlow Condensed',sans-serif; font-size:19px; display:block; margin-bottom:2px;}
+
+  /* ---------- skills legend ---------- */
+  .legend{ display:grid; grid-template-columns:repeat(3, 1fr); gap:0; border:1px solid var(--navy); }
+  @media (max-width:700px){ .legend{ grid-template-columns:1fr; } }
+  .legend .col{ padding:26px 24px; border-right:1px solid var(--navy); }
+  .legend .col:last-child{ border-right:none; }
+  @media (max-width:700px){ .legend .col{ border-right:none; border-bottom:1px solid var(--navy); } .legend .col:last-child{ border-bottom:none; } }
+  .legend h3{ margin:0 0 14px; font-size:16px; font-family:'JetBrains Mono',monospace; color:var(--rust); text-transform:uppercase; letter-spacing:0.06em; }
+  .legend ul{ list-style:none; margin:0; padding:0; }
+  .legend li{ padding:6px 0; color:#3B4C56; font-size:15.5px; border-top:1px dashed var(--paper-dim); }
+  .legend li:first-child{ border-top:none; }
+
+  /* ---------- leadership ---------- */
+  .lead-list{ display:flex; flex-direction:column; gap:0; }
+  .lead-item{ display:flex; gap:18px; padding:16px 0; border-bottom:1px solid var(--paper-dim); }
+  .lead-item:last-child{ border-bottom:none; }
+  .lead-item .dot{ width:8px; height:8px; background:var(--rust); margin-top:9px; flex-shrink:0; }
+  .lead-item p{ margin:0; color:#3B4C56; font-size:16px; }
+
+  /* ---------- footer / contact title block ---------- */
+  footer.blueprint{ padding:80px 0 60px; }
+  footer h2{ color:var(--white); font-size:36px; margin:0 0 12px; }
+  footer p.sub{ color:#B9CDD6; max-width:480px; margin:0 0 40px; font-size:16px; }
+  .contact-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(207,232,240,0.3); border:1px solid rgba(207,232,240,0.3); }
+  @media (max-width:700px){ .contact-grid{ grid-template-columns:1fr; } }
+  .contact-grid a, .contact-grid div{ background:var(--navy-deep); padding:22px 20px; display:block; text-decoration:none; }
+  .contact-grid .k{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--rust); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+  .contact-grid .v{ font-family:'Barlow Condensed',sans-serif; font-size:19px; color:var(--white); }
+  footer .fine{ margin-top:40px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#7C93A0; }
+
+  ::selection{ background:var(--rust); color:var(--white); }
+  :focus-visible{ outline:2px solid var(--rust); outline-offset:2px; }
+
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="mark">MULLANGI<span>·</span>LAHARI</div>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="blueprint hero">
+  <div class="wrap">
+    <div class="kicker"><span class="rule"></span>CIVIL ENGINEERING · SITE PLANNING · INFRASTRUCTURE</div>
+    <h1>Mullangi<br>Lahari</h1>
+    <p class="role">Civil engineering undergraduate working across geotechnical research, GIS-based accessibility analysis, and on-site construction supervision — building toward healthcare infrastructure and site planning.</p>
+    <div class="titleblock">
+      <div><div class="k">Location</div><div class="v">Andhra Pradesh, IN</div></div>
+      <div><div class="k">Email</div><div class="v">mullangilahari5@gmail.com</div></div>
+      <div><div class="k">Phone</div><div class="v">+91 93925 87953</div></div>
+      <div><div class="k">Degree</div><div class="v">B.Tech Civil · 2027</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="summary">
+  <div class="wrap">
+    <div class="sheet-header"><span class="num">01</span><h2>Summary</h2></div>
+    <p>Civil engineering undergraduate with internship experience in construction and building projects, research exposure in geotechnical engineering, and proficiency across drafting, structural, and spatial analysis software. Skilled in technical drawing, layout preparation, and documentation analysis, with a growing focus on healthcare infrastructure design and multidisciplinary project delivery.</p>
+    <div class="stack">
+      <span class="chip">AUTOCAD</span>
+      <span class="chip">REVIT</span>
+      <span class="chip">SAP2000</span>
+      <span class="chip">QGIS</span>
+      <span class="chip">HEC-HMS</span>
+      <span class="chip">MS EXCEL (ADV.)</span>
+      <span class="chip">PYTHON</span>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sheet-header"><span class="num">02</span><h2>Projects &amp; Research</h2></div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3>Spatial Accessibility Analysis of Hospitals Using GIS</h3>
+        <span class="tag">GIS · QGIS</span>
+      </div>
+      <ul>
+        <li>Analyzed hospital accessibility using road network-based spatial analysis techniques.</li>
+        <li>Processed and analyzed district-level road network datasets in QGIS.</li>
+        <li>Evaluated healthcare service coverage using threshold distance concepts and accessibility models.</li>
+        <li>Delivered recommendations for improving healthcare facility distribution and road connectivity.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3>Green View Index (GVI) Estimation</h3>
+        <span class="tag">ENVIRONMENTAL</span>
+      </div>
+      <ul>
+        <li>Estimated Green View Index using 360-degree camera capture for environmental assessment.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3>Hydraulic Performance &amp; Long-Term Flow Resistance of MSWI Fly Ash–Bentonite Geomembrane Composite Liners</h3>
+        <span class="tag">GEOTECHNICAL</span>
+      </div>
+      <ul>
+        <li>Selected under the SRM University-AP SEED Research Grant category, FY 2026–27.</li>
+        <li>Conducting experimental research on sustainable composite liner systems and hydraulic performance.</li>
+      </ul>
+      <div class="meta">FUNDING: ₹35,000 · SEED RESEARCH GRANT, SRM UNIVERSITY-AP</div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sheet-header"><span class="num">03</span><h2>Internship</h2></div>
+    <div class="timeline">
+      <div class="tl-item" data-n="1">
+        <h3>Roads &amp; Buildings (R&amp;B) Department, Sub-Division</h3>
+        <div class="role-meta">KADAPA, ANDHRA PRADESH · MAY – JUL 2025 · 2 MONTHS</div>
+        <ul>
+          <li>Completed industrial training in the government sector on civil infrastructure projects.</li>
+          <li>Supervised, inspected, and monitored ongoing road and public building works.</li>
+          <li>Assisted with field surveying, estimation, quantity take-offs, and quality control under departmental guidelines.</li>
+          <li>Observed construction procedures for bituminous and concrete pavements, culverts, and other civil structures.</li>
+          <li>Gained exposure to official documentation including tendering, Measurement Books (MB), and site records.</li>
+          <li>Built practical understanding of IRC/IS codes, site execution methods, and public sector project management.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="achievements" style="background:var(--paper-dim);">
+  <div class="wrap">
+    <div class="sheet-header"><span class="num">04</span><h2>Key Achievements</h2></div>
+    <div class="ach-grid">
+      <div class="ach">
+        <h3>Sakura Science Exchange Program — Japan</h3>
+        <p>Selected for this international program with sessions on sustainable urban disaster prevention. Gained exposure to advanced infrastructure planning and disaster management, interacting with global researchers and students.</p>
+      </div>
+      <div class="ach">
+        <h3>SEED Research Grant, SRM University-AP</h3>
+        <p>Awarded a ₹35,000 funded research project (FY 2026–27) for experimental work on sustainable composite liner systems and hydraulic performance evaluation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="sheet-header"><span class="num">05</span><h2>Education</h2></div>
+    <div class="edu-list">
+      <div class="edu-row">
+        <div class="yr">2027</div>
+        <div class="school"><span class="deg">B.Tech, Civil Engineering</span>SRM University-AP</div>
+        <div class="cgpa">9.09 CGPA</div>
+      </div>
+      <div class="edu-row">
+        <div class="yr">2023</div>
+        <div class="school"><span class="deg">Intermediate</span>Narayana Junior College</div>
+        <div class="cgpa">8.92 CGPA</div>
+      </div>
+      <div class="edu-row">
+        <div class="yr">2021</div>
+        <div class="school"><span class="deg">SSC</span>Raju High School, Rajampet</div>
+        <div class="cgpa">99.66%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="background:var(--paper-dim);">
+  <div class="wrap">
+    <div class="sheet-header"><span class="num">06</span><h2>Skills &amp; Leadership</h2></div>
+    <div class="legend">
+      <div class="col">
+        <h3>Software</h3>
+        <ul>
+          <li>AutoCAD</li>
+          <li>Revit</li>
+          <li>SAP2000</li>
+          <li>QGIS</li>
+          <li>HEC-HMS</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Productivity &amp; Programming</h3>
+        <ul>
+          <li>MS Excel (Advanced)</li>
+          <li>MS Word</li>
+          <li>MS PowerPoint</li>
+          <li>C</li>
+          <li>Python</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Leadership</h3>
+        <div class="lead-list" style="margin-top:2px;">
+          <div class="lead-item"><span class="dot"></span><p>IRHS Representative</p></div>
+          <div class="lead-item"><span class="dot"></span><p>Secretary, ASCE Civil Engineering Club</p></div>
+          <div class="lead-item"><span class="dot"></span><p>Volunteer, Conference on Population Dynamics and Development</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="blueprint" id="contact">
+  <div class="wrap">
+    <div class="kicker"><span class="rule"></span>SHEET 07 OF 07 — CONTACT</div>
+    <h2>Let's build something.</h2>
+    <p class="sub">Open to internships and collaborations in site planning, healthcare infrastructure design, and geotechnical research.</p>
+    <div class="contact-grid">
+      <a href="mailto:mullangilahari5@gmail.com"><div class="k">Email</div><div class="v">mullangilahari5@gmail.com</div></a>
+      <div><div class="k">Phone</div><div class="v">+91 93925 87953</div></div>
+      <a href="https://linkedin.com/in/lahari-mullangi" target="_blank" rel="noopener"><div class="k">LinkedIn</div><div class="v">/in/lahari-mullangi</div></a>
+    </div>
+    <div class="fine">MULLANGI LAHARI · B.TECH CIVIL ENGINEERING · SRM UNIVERSITY-AP · 2027</div>
+  </div>
+</footer>
+
+</body>
+</html>
